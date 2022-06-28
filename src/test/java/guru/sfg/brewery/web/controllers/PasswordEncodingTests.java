@@ -17,10 +17,11 @@ public class PasswordEncodingTests {
 
     static final String PASSWORD = "password";
     static final String PASSWORD_TIGER = "tiger";
+    static final String PASSWORD_GURU = "guru";
 
     @Test
     void testBcrypt() {
-        PasswordEncoder bcrypt = new BCryptPasswordEncoder(15);
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder(10);
 
         System.out.println(bcrypt.encode(PASSWORD));
         System.out.println(bcrypt.encode(PASSWORD_TIGER));
@@ -43,8 +44,12 @@ public class PasswordEncodingTests {
         System.out.println(ldap.encode(PASSWORD));
 
         String encodedPwd = ldap.encode(PASSWORD);
+        String encodedGuruPwd = ldap.encode(PASSWORD_GURU);
+
+        System.out.println(ldap.encode(PASSWORD_GURU));
 
         assertTrue(ldap.matches(PASSWORD, encodedPwd ));
+        assertTrue(ldap.matches(PASSWORD_GURU, encodedGuruPwd ));
 
     }
 
