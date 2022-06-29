@@ -31,7 +31,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -78,6 +81,7 @@ public class BeerController {
         }
     }
 
+
     @BeerReadPermission
     @GetMapping("/{beerId}")
     public ModelAndView showBeer(@PathVariable UUID beerId) {
@@ -87,7 +91,7 @@ public class BeerController {
         return mav;
     }
 
-    @BeerReadPermission
+    @BeerCreatePermission
     @GetMapping("/new")
     public String initCreationForm(Model model) {
         model.addAttribute("beer", Beer.builder().build());
@@ -111,7 +115,7 @@ public class BeerController {
         return "redirect:/beers/" + savedBeer.getId();
     }
 
-    @BeerReadPermission
+    @BeerUpdatePermission
     @GetMapping("/{beerId}/edit")
     public String initUpdateBeerForm(@PathVariable UUID beerId, Model model) {
         if (beerRepository.findById(beerId).isPresent())
@@ -120,7 +124,7 @@ public class BeerController {
     }
 
     @BeerUpdatePermission
-    @PutMapping("/{beerId}/edit")
+    @PostMapping("/{beerId}/edit")
     public String processUpdateForm(@Valid Beer beer, BindingResult result) {
         if (result.hasErrors()) {
             return "beers/createOrUpdateBeer";

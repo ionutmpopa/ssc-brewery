@@ -41,7 +41,8 @@ import java.util.UUID;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -137,7 +138,7 @@ class BeerControllerTest {
     void processUpdationForm() throws Exception {
         when(beerRepository.save(ArgumentMatchers.any())).thenReturn(Beer.builder().id(uuid).build());
 
-        mockMvc.perform(put("/beers/"+uuid+"/edit"))
+        mockMvc.perform(post("/beers/"+uuid+"/edit"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/beers/"+uuid))
                 .andExpect(model().attributeExists("beer"));
