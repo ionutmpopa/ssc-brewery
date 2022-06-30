@@ -50,10 +50,10 @@ public class Customer extends BaseEntity {
     @Column(length = 36, columnDefinition = "varchar")
     private UUID apiKey;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<User> users;
-
     @OneToMany(mappedBy = "customer")
     private Set<BeerOrder> beerOrders;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<User> users;
 
 }

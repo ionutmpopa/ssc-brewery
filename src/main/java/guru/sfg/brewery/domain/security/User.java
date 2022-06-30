@@ -40,32 +40,14 @@ public class User implements UserDetails, CredentialsContainer {
     private Customer customer;
 
     @Transient
-    private Set<Authority> authorities;
-
-    @Transient
     public Set<GrantedAuthority> getAuthorities() {
         return this.roles.stream()
-            .map(Role::getAuthorities)
-            .flatMap(Set::stream)
-            .map(authority -> new SimpleGrantedAuthority(authority.getPermission()))
-            .collect(Collectors.toSet());
-    }
-
-    @Builder.Default
-    private Boolean accountNonExpired = true;
-
-    @Builder.Default
-    private Boolean accountNonLocked = true;
-
-    @Builder.Default
-    private Boolean credentialsNonExpired = true;
-
-    @Builder.Default
-    private Boolean enabled = true;
-
-    @Override
-    public void eraseCredentials() {
-        this.password = null;
+                .map(Role::getAuthorities)
+                .flatMap(Set::stream)
+                .map(authority -> {
+                    return new SimpleGrantedAuthority(authority.getPermission());
+                })
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -86,5 +68,22 @@ public class User implements UserDetails, CredentialsContainer {
     @Override
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+    @Builder.Default
+    private Boolean accountNonExpired = true;
+
+    @Builder.Default
+    private Boolean accountNonLocked = true;
+
+    @Builder.Default
+    private Boolean credentialsNonExpired = true;
+
+    @Builder.Default
+    private Boolean enabled = true;
+
+    @Override
+    public void eraseCredentials() {
+        this.password = null;
     }
 }
