@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by jt on 6/17/20.
  */
-public final class SfgPasswordEncoderFactories {
+public class SfgPasswordEncoderFactories {
 
     public static PasswordEncoder createDelegatingPasswordEncoder() {
         String encodingId = "bcrypt10";

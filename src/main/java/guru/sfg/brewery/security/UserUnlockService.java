@@ -29,7 +29,7 @@ public class UserUnlockService {
                 .findAllByAccountNonLockedAndLastModifiedDateIsBefore(false,
                         Timestamp.valueOf(LocalDateTime.now().minusSeconds(30)));
 
-        if(!lockedUsers.isEmpty()){
+        if(lockedUsers.size() > 0){
             log.debug("Locked Accounts Found, Unlocking");
             lockedUsers.forEach(user -> user.setAccountNonLocked(true));
 
