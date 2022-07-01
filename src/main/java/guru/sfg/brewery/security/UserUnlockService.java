@@ -21,7 +21,7 @@ public class UserUnlockService {
 
     private final UserRepository userRepository;
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 300000)
     public void unlockAccounts(){
         log.debug("Running Unlock Accounts");
 
@@ -29,7 +29,7 @@ public class UserUnlockService {
                 .findAllByAccountNonLockedAndLastModifiedDateIsBefore(false,
                         Timestamp.valueOf(LocalDateTime.now().minusSeconds(30)));
 
-        if(lockedUsers.size() > 0){
+        if(!lockedUsers.isEmpty()){
             log.debug("Locked Accounts Found, Unlocking");
             lockedUsers.forEach(user -> user.setAccountNonLocked(true));
 
